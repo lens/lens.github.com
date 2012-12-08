@@ -1,0 +1,122 @@
+---
+layout: page
+title: FAQ
+---
+
+h2. General
+
+* "What are goals of this project?":#goals
+* "How do you determine what falls into the scope of @lens@?":#scope
+* "Will you be splitting out a separate @lens-core@ package?":#lens-core
+* "Wasn't @fclabels@ or @data-lens@ good enough for you?":#good-enough
+
+h2. Resources
+
+* "Where can I learn about lenses?":#lens-resources
+* "How does this relate to 'Bananas, Lenses, Envelopes and Barbed Wire'?":#bananas
+
+
+h2. Usage Guidelines
+
+* "When should I define or use a @Getter@ rather than a function?":#using-getters
+
+***
+
+h3=. General FAQs
+
+h4. <a name="goals">Q:</a> What are the goals of this project? Why does this project exist?
+
+*A:* The @lens@ library exists to provide more composable versions of the abstractions you already know how to use in Haskell. Virtually every Haskell programmer already knows how to work with functors and functions or @Foldable@ and @Traversable@ containers -- we simply provide you with a vocabulary for composing them and working with their compositions along with specializations of these ideas to monomorphic "containers" such as @Text@ and @ByteString@.
+
+One goal of @lens@ has been to provide a consistent vocabulary that lets you access and work with pure data of any sort, while retaining the ability to be able to reason about your code with laws.
+
+h4. <a name="scope">Q:</a> How do you determine what falls into the scope of @lens@?
+
+As a rule @lens@ incurs no package dependency that is not either in the <a href="http://www.haskell.org/platform/">Haskell Platform</a> *or* required to implement its own functionality.
+
+That said, we've tried to provide a "Batteries Included" API that provides useful tools for operating with anything that *does* fall into its scope.
+
+h4. <a name="lens-core">Q:</a> Will you be splitting out a separate @lens-core@ package? The @build-depends:@ list has a lot of stuff I don't use.
+
+*A:* This is on the surface a very reasonable request, but it doesn't work very well in practice. To implement even basic @lens@ functionality requires a number of language extensions.
+
+Consider the extensions needed to break out the types and combinators for lenses, traversals, etc. separately from the rest of the package. We'd need @Rank2Types@ to even write @Lens@. Working with indexed lenses needs @TypeFamilies@, because without type equality coercions type inference for them is unusable. By the time we get done with @Projection@ and @Iso@ we've brought in a whole pile of extensions and already tied ourselves to the <a href="http://www.haskell.org/ghc/">Glorious Glasgow Haskell Compiler</a>.
+
+Even with just this functionality, implementing these combinators already dragged in the @mtl@ and a large number of dependencies. We had to define a large number of internal types along the way, types we actually expose elsewhere to the user in the API, like @Context@ and @Bazaar@, which have useful @Comonad@ instances. This forces us to implement them correctly, orphan those instances or remove functionality.
+
+Since we're already tied to GHC, and the Template Haskell code generator for @makeLenses@ and @makeClassy@ is key to making the library usable, it makes sense to incorporate that directly into the base package. Implementing that brings with it dependencies on @containers@.
+
+The combinators in @Control.Lens.Plated@ are generally useful when working with any @Traversal@ and we use @Plated@ internally.
+
+One part we *could* splinter out into a separate package are the combinators in @Control.Lens.Zipper@, but they are sort of the "killer app" for lenses and having them brought into scope by default with the rest of @Control.Lens@ minimizes confusion and encourages their adoption.
+
+h4. <a name="good-enough">Q:</a> Wasn't @fclabels@ or @data-lens@ good enough for you?
+
+Most of the power of @lens@ comes from working with generalizations of the notion of a van Laarhoven lens. 
+
+*A:* None of @fclabels@, @data-lens@, @data-accessor@, @lenses@, @yall@, etc. provided this style of lens and most had attempted to generalize the idea of a @Lens@ by shoe-horning a @Monad@ or some other notion of partiality into the middle of it. This came at the expense of the laws that made working with lenses worth doing.
+
+Providing lenses for any of these libraries required picking up a dependency on a package, which means that it is really impractical or impossible for a reasonably "core" package on hackage to reasonably provide lenses for them.
+
+However, the style of lenses used by @lens@ can be defined using functions from the @Prelude@. No dependencies need be incurred to *supply* lenses, merely to use them!
+
+There really wasn't a good library for working with van Laarhoven lens families when @lens@ was started. @lens-family@ had tried to be that library, but it required 3 separate packages to work with and used the same names between its Haskell 98 @lens-family-core@ package and the main @lens-family@ package. Moreover, it is shackled by Haskell 98. That said, the combinators for working with lenses from @lens-family-core@ are mostly compatible with the lenses provided by or for use by this package.
+
+By adopting and generalizing van Laarhoven lenses we are able to both provide rigorous laws for each of our lens variants *and* provide a better user experience, because almost any lens, projection, traversal, isomorphism, etc. that the user goes to reach for can be used with any combinator and it just "does the right thing". Unlike earlier lens libraries explicit conversions are almost entirely eliminated and the combinatorial explosion of combinators is eliminated along at least one axis.
+
+***
+
+h3=. Resources
+
+h4. <a name="lens-resources">Q:</a> Where can I learn more about lenses in general?
+
+*A:* There are a number of resources online. Here are a few:
+
+* The first answer to <a href="http://stackoverflow.com/questions/5767129/lenses-fclabels-data-accessor-which-library-for-structure-access-and-mutatio/5769285#5769285">"lenses, fclabels, data-accessor - which library for structure access and mutation is better"</a> on Stack Overflow goes into some depth about how you can think about lenses and the different design trade-offs between the lens libraries that were then extant in Haskell.
+
+* The author, Edward Kmett, has video on youtube from his presentation on <a href="https://www.youtube.com/watch?v=efv0SQNde5Q&list=PLEDE5BE0C69AF6CCE&feature=plcp">"Lenses: A Functional Imperative"</a> covering the approach originally used in scalaz library for Scala. Slides are available online.
+
+* <a href="https://www.youtube.com/watch?v=BiHH3LzKV04">Seth Tisue</a> gave an excellent introduction to lenses as provided by Miles Sabin's <a href="https://github.com/milessabin/shapeless">shapeless</a> library in Scala. The turtle example from his talk is available in the @examples/@ folder.
+
+* If you prefer to learn by example, the @examples/@ folder contains a number of fully worked examples, including a playable game of pong and a brainfuck interpreter that were written by <a href="/nandykins">nandykins</a> to learn his way around @lens@.
+
+* The <a href="/lens/wiki/Derivation">Derivation</a> page of this wiki covers some of the motivation about how and why van Laarhoven lenses compose so well.
+
+* Russell O'Connor wrote a blog post on <a href="http://r6.ca/blog/20120623T104901Z.html">Polymorphic Update with van Laarhoven Lenses</a>, which inspired Edward Kmett to post on his blog, the Comonad.Reader, <a href="http://comonad.com/reader/2012/mirrored-lenses/">Mirrored Lenses</a> the immediate precursor to the approach taken here.
+
+* The form of lenses we use was originally derived by Twan van Laarhoven in <a href="http://twanvl.nl/blog/haskell/cps-functional-references">CPS based functional references</a> A number of posts about lenses or "functional references" can be found on <a href="http://twanvl.nl/">his blog</a>. 
+
+* The term "van Laarhoven" lens was coined by Russell O'Connor in <a href="http://arxiv.org/abs/1103.2841">"Functor is to Lens as Applicative is to Biplate: Introducing Multiplate"</a>. The concept now known as a Traversal can be viewed as a "biplate family" mixing the vocabulary from the Mirrored Lenses post and Russell's paper.
+
+* The @Bazaar@ comonad, which is used to characterize traversals and to implement many combinators is equivalent in power to an indexed version of the Cartesian Store comonad from Russell's <a href="http://arxiv.org/abs/1103.2841">"Functor is to Lens as Applicative is to Biplate: Introducing Multiplate"</a>, which is called the Kleene Store by him elsewhere. That type goes back farther to Twan van Laarhoven, who called it a @FunList@ in <a href="http://twanvl.nl/blog/haskell/non-regular1">"A non-regular data type challenge"</a>.
+
+* The name lens goes back to Benjamin Pierce's <a href="http://www.cis.upenn.edu/~bcpierce/papers/index.shtml#Lenses">work on bidirectional programming</a>. The notion of a lens in this package corresponds to his notion of a "very well-behaved lens".
+
+* Before that they were a folklore technique in the functional programming world, known as "functional references":
+** <a href="http://article.gmane.org/gmane.comp.lang.haskell.cafe/28094">http://article.gmane.org/gmane.comp.lang.haskell.cafe/28094</a>
+** <a href="http://twanvl.nl/blog/haskell/overloading-functional-references">http://twanvl.nl/blog/haskell/overloading-functional-references</a>
+** <a href="http://twanvl.nl/blog/haskell/References-Arrows-and-Categories">http://twanvl.nl/blog/haskell/References-Arrows-and-Categories</a>
+** <a href="http://twanvl.nl/blog/news/2011-05-19-lenses-talk">http://twanvl.nl/blog/news/2011-05-19-lenses-talk</a>
+** <a href="http://twanvl.nl/blog/haskell/isomorphism-lenses">http://twanvl.nl/blog/haskell/isomorphism-lenses</a>
+
+* Janis Voightländer's work on <a href="http://link.springer.com/chapter/10.1007%2F978-3-642-32202-0_1">bidirectional programming</a> is also related.
+
+h4. <a name="bananas">Q:</a> How does this package relate to "Bananas, Lenses, Envelopes and Barbed Wire?"
+
+*A:* It doesn't. 
+
+Erik Meijer _et al._'s <a href="http://eprints.eemcs.utwente.nl/7281/01/db-utwente-40501F46.pdf">"Functional Programming with Bananas, Lenses, Envelopes and Barbed Wire"</a> is a wonderful paper about a completely unrelated topic.
+
+In that paper they define <a href="http://comonad.com/haskell/catamorphisms.html">catamorphisms</a> (folds) which they indicate syntactically with "banana brackets" @(|..|)@ and they define anamorphisms (unfolds) which they indicate syntactically with "lenses" @[(..)]@ along with a couple of other <a href="http://comonad.com/reader/2009/recursion-schemes/">recursion schemes</a>.
+
+The "banana bracket" term is still sometimes used to talk about catamorphisms, but the other colloquial terms for their notations never really caught on. The notion of "lenses" that they use is just a reference to their syntax, and has nothing to do with the notion of a lens used by this library.
+
+***
+
+h3=. Usage Guidelines
+
+h4. <a name="using-getters">Q:</a> When should I define or use a @Getter@ rather than a function?
+
+*A:* In general you shouldn't bother defining values that are just a @Getter@. It is almost always
+a better idea to just supply a function, and then drop it into the chain of lenses or traversals with @to@,
+or by simply applying it to the final result.
