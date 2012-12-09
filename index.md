@@ -15,7 +15,7 @@ The [FAQ](https://github.com/ekmett/lens/wiki/FAQ), which provides links to a la
 
 Documentation is available through [github](http://ekmett.github.com/lens/frames.html) (for HEAD) or [hackage](http://hackage.haskell.org/package/lens) for the current and preceding releases.
 
-### Recent Activity
+### <a href="/rss.xml"><img src="/img/feed-icon-28x28.png"></a> Recent Activity
 
 <div class="content">
   <div class="related">
