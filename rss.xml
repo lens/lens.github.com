@@ -15,18 +15,10 @@ layout: nil
     {% for post in site.posts %}
     <item>
       <title>{{ post.title }}</title>
-      {% if post.link != null %}
-      <link>{{ post.link }}</link>
-      {% else %}
-      <link>http://lens.github.com{{ post.url }}</link>
-      {% endif %}
+      {% if post.link != null %}<link>{{ post.link }}</link>{% else %}<link>http://lens.github.com{{ post.url }}</link>{% endif %}
       <pubDate>{{ post.date | date: "%a, %d %b %Y %H:%M:%S %z" }}</pubDate>
       <author>Edward Kmett (ekmett@gmail.com)</author>
-      {% if post.link != null %}
-      <guid>{{ post.link }}</guid>
-      {% else %}
-      <guid>http://lens.github.com{{ post.id }}</guid>
-      {% endif %}
+      {% if post.link != null %}<guid>{{ post.link }}</guid>{% else %}<guid>http://lens.github.com{{ post.id }}</guid>{% endif %}
       <description>{{ post.content | xml_escape }}</description>
     </item>
     {% endfor %}
