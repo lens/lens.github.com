@@ -22,11 +22,7 @@ Documentation is available through [github](http://ekmett.github.com/lens/frames
     <ul>
       {% for post in site.posts %}
       <li>
-        {% if post.link != null %}
-        <span>{{ post.date | date: "%B %e, %Y" }}</span> &middot; <span><a href="{{ post.link }}">{{ post.title }}</a></span> &middot; <span>{{ post.teaser }}</span>
-        {% else %}
-        <span>{{ post.date | date: "%B %e, %Y" }}</span> &middot; <span><a href="{{ post.url }}">{{ post.title }}</a></span> &middot; <span>{{ post.teaser }}</span>
-        {% endif %}
+        <span>{{ post.date | date: "%B %e, %Y" }}</span> &middot; <span>{{post.author}}</span> &middot; <span><a href="{% if post.link != null %}{{ post.link }}{% else %}{{ post.url }}{% endif %}">{{ post.title }}</a></span>
       </li>
       {% endfor %}
     </ul>
