@@ -1,15 +1,8 @@
-exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md", "_github"]
+exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md"]
 auto: true
-pygments: true
-
 lsi: false
 pygments: true
-#markdown: redcarpet2
-#redcarpet:
-#  extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "tables", "with_toc_data"]
 safe: true
-
-# permalink: /:categories/:year/:month/:day/:title
 
 title: The Lens Library
 tagline: Lenses, Folds and Traversals
