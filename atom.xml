@@ -3,11 +3,11 @@ layout: nil
 ---
 <?xml version="1.0"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>The Lens Library</title>
+  <title>Lenses, Folds and Traversals</title>
   <link href="http://lens.github.com/"/>
   <link type="application/atom+xml" rel="self" href="http://lens.github.com/atom.xml"/>
   <updated>{{ site.time | date_to_xmlschema }}</updated>
-  <id>http://lens.github..com/</id>
+  <id>http://lens.github.com/</id>
   <author>
     <name>Edward Kmett</name>
     <email>ekmett@gmail.com</email>
