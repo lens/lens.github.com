@@ -13,3 +13,8 @@ body {
   background-attachment: fixed;
   overflow: auto;
 }
+
+h3 {
+  padding-top: 40px;
+
+}

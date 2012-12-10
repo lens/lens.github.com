@@ -1,7 +1,9 @@
 ---
-layout: page
+layout: tutorial
 title: Getting Started
 ---
+
+### Getting Started
 
 First, install `lens`.
 
@@ -242,6 +244,12 @@ from nor = neither
 neither.nor = id
 nor.neither = id
 {% endhighlight %}
+
+### Field Guide
+
+[![Lens Hierarchy](https://s3.amazonaws.com/creately-published/h5nyo9ne1)](https://creately.com/diagram/h5nyo9ne1/LBbRz63yg4yQsTXGLtub1bQU4%3D)
+
+### Carrying On
 
 There is also a fully operational, but simple game of [Pong](https://github.com/ekmett/lens/blob/master/examples/Pong.hs) in the [examples/](https://github.com/ekmett/lens/blob/master/examples/) folder.
 
