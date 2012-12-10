@@ -21,7 +21,7 @@ layout: nil
     <published>{{ post.date | date_to_xmlschema }}</published>
     <updated>{{ post.date | date_to_xmlschema }}</updated>
     <author>
-      <name>Edward Kmett</name>
+      <name>{{ post.author }}</name>
       <uri>http://lens.github.com/</uri>
     </author>
     <content type="html">{{ post.content | xml_escape }}</content>
