@@ -254,3 +254,5 @@ nor.neither = id
 There is also a fully operational, but simple game of [Pong](https://github.com/ekmett/lens/blob/master/examples/Pong.hs) in the [examples/](https://github.com/ekmett/lens/blob/master/examples/) folder.
 
 There are also a couple of hundred examples distributed throughout the haddock documentation.
+
+There is also a <a href="https://www.youtube.com/watch?v=cefnmjtAolY&hd=1&t=1m14s">video</a>, covering the derivation and basic use of lenses.
