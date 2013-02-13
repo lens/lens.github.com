@@ -33,5 +33,5 @@ Documentation is available through [github](http://ekmett.github.com/lens/frames
 
 [Slides from this talk](http://comonad.com/haskell/Lenses-Folds-and-Traversals-NYC.pdf) are also available.
 
-<iframe width="1200" height="720" src="https://www.youtube.com/v/cefnmjtAolY" frameborder="0" allowfullscreen="1"></iframe>
+<iframe width="1200" height="720" src="http://www.youtube.com/embed/cefnmjtAolY&hd=1&t=1m14s" frameborder="0" allowfullscreen="1"></iframe>
 
