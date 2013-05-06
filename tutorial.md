@@ -79,7 +79,7 @@ ghci> ((), "world") & _1 .~ "hello"
 ("hello","world)
 {% endhighlight %}
 
-Conversely `view`, can be used as an prefix alias for `(^.)`.
+Conversely `view`, can be used as a prefix alias for `(^.)`.
 
 {% highlight haskell %}
 ghci> view _2 (10,20)
@@ -128,7 +128,7 @@ A `Lens` takes 4 parameters because it can change the types of the whole when yo
 Often you won't need this flexibility, a `Simple Lens` takes 2 parameters, and can be used directly as a `Lens`.
 
 Just like how we can write a `Getter` that can only be used for retrieving information, we can write a `Setter`
-which can only be used for updates. Like a using `fmap` on a `Functor` updating a `Setter` can modify multiple
+which can only be used for updates. Like using `fmap` on a `Functor` updating a `Setter` can modify multiple
 targets!
 
 The canonical example of a setter is 'mapped':
